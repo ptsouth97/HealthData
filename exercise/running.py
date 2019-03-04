@@ -13,15 +13,16 @@ def main():
 	#df = pd.read_excel(data_file, skiprows=1)
 	df = pd.read_csv(data_file, skiprows=1)
 
-	mean_speed(df)
-	distance(df)
-
-
-def mean_speed(df):
-	''' Plots mean speed of runs'''
-
 	# select rows where the exercise code indicates running
 	running = df.loc[df['exercise_type'] == 1002]
+
+	mean_speed(running)
+	distance(running)
+	duration(running)
+
+
+def mean_speed(running):
+	''' Plots mean speed of runs'''
 
 	# slice the columns with the date and average speed
 	x = running['start_time']
@@ -40,11 +41,8 @@ def mean_speed(df):
 	return
 
 
-def distance(df):
+def distance(running):
 	''' Plots distance of runs'''
-
-	# select rows where the exercise code indicates running
-	running = df.loc[df['exercise_type'] == 1002]
 
 	# slice the columns with the data and distance
 	x = running['start_time']
@@ -62,6 +60,26 @@ def distance(df):
 
 	return
 
+
+def duration(running):
+	''' Plots duration of runs'''
+
+	# slice the columns with the data and distance
+	x = running['start_time']
+	y = running['duration']
+    
+	# make a plot
+	plt.plot(x, y, linestyle='none', marker='.')
+	plt.title('Duration for runs (1002)')
+	plt.xlabel('Date')
+	plt.ylabel('Duration (milliseconds)')
+	plt.xticks(rotation='vertical')
+	plt.tight_layout()
+	plt.savefig('duration.jpg')
+	plt.show()
+
+	return
+	
 
 if __name__ == '__main__':
 	main()
