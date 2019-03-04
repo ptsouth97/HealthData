@@ -22,10 +22,12 @@ def main():
 
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
+	plt.title('Mean speed for runs (1002)')
 	plt.xlabel('Date')
-	plt.ylabel('Mean speed')
+	plt.ylabel('Mean speed (meters/second)')
 	plt.xticks(rotation='vertical')
 	plt.tight_layout()
+	plt.savefig('Mean speed.jpg')
 	plt.show()
 
 
