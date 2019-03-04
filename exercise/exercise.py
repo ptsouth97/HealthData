@@ -8,8 +8,10 @@ def main():
 	'''main loop'''
 
 	# read exercise file into a dataframe
-	data_file = 'com.samsung.health.exercise.201804281858.xlsx'
-	df = pd.read_excel(data_file, skiprows=1)
+	data_file = 'com.samsung.health.exercise.201903041229.csv'
+
+	#df = pd.read_excel(data_file, skiprows=1)
+	df = pd.read_csv(data_file, skiprows=1)	
 
 	# select rows where the exercise code indicates running
 	running = df.loc[df['exercise_type'] == 1002]
@@ -23,6 +25,7 @@ def main():
 	plt.xlabel('Date')
 	plt.ylabel('Mean speed')
 	plt.xticks(rotation='vertical')
+	plt.tight_layout()
 	plt.show()
 
 
