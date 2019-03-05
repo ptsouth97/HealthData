@@ -2,6 +2,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import re
 
 
 def main():
@@ -16,16 +17,18 @@ def main():
 	# select rows where the exercise code indicates running
 	running = df.loc[df['exercise_type'] == 1002]
 
-	#mean_speed(running)
-	#distance(running)
+	mean_speed(running)
+	distance(running)
 	duration(running)
 
 
 def mean_speed(running):
 	''' Plots mean speed of runs'''
 
-	# slice the columns with the date and average speed
-	x = running['start_time']
+	# slice the start time column and keep the date, but not the time
+	x = running['start_time'].str.split(' ').str[0]
+
+	# slice the mean_speed column
 	y = running['mean_speed']
 
 	# make a plot
@@ -44,8 +47,10 @@ def mean_speed(running):
 def distance(running):
 	''' Plots distance of runs'''
 
-	# slice the columns with the data and distance
-	x = running['start_time']
+	# slice the start time column and keep the date, but not the time
+	x = running['start_time'].str.split(' ').str[0]
+
+	# slice the distance column
 	y = running['distance']
 
 	# convert meters to kilometers
@@ -67,8 +72,10 @@ def distance(running):
 def duration(running):
 	''' Plots duration of runs'''
 
-	# slice the columns with the data and distance
-	x = running['start_time']
+	# slice the start time column and keep the date, but not the time
+	x = running['start_time'].str.split(' ').str[0]
+	
+	# slice the duration column
 	y = running['duration']
     
 	# convert milliseconds to minutes
