@@ -16,8 +16,8 @@ def main():
 	# select rows where the exercise code indicates running
 	running = df.loc[df['exercise_type'] == 1002]
 
-	mean_speed(running)
-	distance(running)
+	#mean_speed(running)
+	#distance(running)
 	duration(running)
 
 
@@ -48,11 +48,14 @@ def distance(running):
 	x = running['start_time']
 	y = running['distance']
 
+	# convert meters to kilometers
+	y = y / 1000	
+
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
 	plt.title('Distance for runs (1002)')
 	plt.xlabel('Date')
-	plt.ylabel('Distance (meters)')
+	plt.ylabel('Distance (kilometers)')
 	plt.xticks(rotation='vertical')
 	plt.tight_layout()
 	plt.savefig('distance.jpg')
@@ -68,11 +71,14 @@ def duration(running):
 	x = running['start_time']
 	y = running['duration']
     
+	# convert milliseconds to minutes
+	y = y / 1000 / 60
+
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
 	plt.title('Duration for runs (1002)')
 	plt.xlabel('Date')
-	plt.ylabel('Duration (milliseconds)')
+	plt.ylabel('Duration (minutes)')
 	plt.xticks(rotation='vertical')
 	plt.tight_layout()
 	plt.savefig('duration.jpg')
