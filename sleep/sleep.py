@@ -28,16 +28,23 @@ def plot_hours(df):
 	''' Plots hours slept each night'''
 
 	# add a duration column
-	df['duration'] = (pd.to_datetime(df['end_time']) - pd.to_datetime(df['start_time']))#.dt.components['seconds'] #.astype('timedelta64[h]')
+	df['duration'] = (pd.to_datetime(df['end_time']) - pd.to_datetime(df['start_time']))
 
-	# filter out hours above 12 as erroneous
-	#df = df[df['duration']<12]
+	# filter out days above 1 as erroneous
+	df = df[df['duration'] < dt.timedelta(days=1)]
+
+	# convert to timedelta
+	df['duration'] = df['duration'].astype('timedelta64[m]') / 60
+
+	# add a duration integer column
+	#df['duration_int'] = df['duration'].astype('timedelta64[h]') + df['duration'].astype('timedelta64[m]')
 
 	# slice the start time column and keep the date, but not the time
 	x = df['start_time'].str.split(' ').str[0]
 	
-	y = df['duration']#.dt.datetime.time()
+	y = df['duration']
 
+	print(y)
 	print(type(y[0]))
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
