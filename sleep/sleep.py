@@ -33,27 +33,27 @@ def plot_hours(df):
 	# filter out days above 1 as erroneous
 	df = df[df['duration'] < dt.timedelta(days=1)]
 
-	# convert to timedelta
+	# convert to timedelta and then convert minutes to hours
 	df['duration'] = df['duration'].astype('timedelta64[m]') / 60
-
-	# add a duration integer column
-	#df['duration_int'] = df['duration'].astype('timedelta64[h]') + df['duration'].astype('timedelta64[m]')
 
 	# slice the start time column and keep the date, but not the time
 	x = df['start_time'].str.split(' ').str[0]
-	
+
+	# slice the duration column	
 	y = df['duration']
 
-	print(y)
-	print(type(y[0]))
+	# calculate average sleep duration
+	sleep_mean = y.mean()
+
 	# make a plot
-	plt.plot(x, y, linestyle='none', marker='.')
-	plt.title('Sleep duration')
-	plt.xlabel('Date')
-	plt.ylabel('Duration (hours)')
-	plt.xticks(rotation='vertical')
-	plt.tight_layout()
-	plt.savefig('sleep.jpg')
+	_ = plt.plot(x, y, linestyle='none', marker='.')
+	_ = plt.axhline(y=sleep_mean, linestyle='--', color='red')
+	_ = plt.title('Sleep duration')
+	_ = plt.xlabel('Date')
+	_ = plt.ylabel('Duration (hours)')
+	_ = plt.xticks(rotation='vertical')
+	_ = plt.tight_layout()
+	_ = plt.savefig('sleep.jpg')
 	plt.show()
 	
 	return
