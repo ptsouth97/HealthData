@@ -9,7 +9,7 @@ def main():
 	'''main loop'''
 
 	# read exercise file into a dataframe
-	data_file = 'com.samsung.health.exercise.201903041229.csv'
+	data_file = 'com.samsung.health.exercise.201903142152.csv'
 
 	#df = pd.read_excel(data_file, skiprows=1)
 	df = pd.read_csv(data_file, skiprows=1)
@@ -17,6 +17,9 @@ def main():
 	# select rows where the exercise code indicates running
 	running = df.loc[df['exercise_type'] == 1002]
 
+	# select rows after February 16, 2019 (when full 5 kilometer distance was run)
+	running = running.loc[running['start_time'] > '2019-02-16 00:00:00.000']
+	
 	mean_speed(running)
 	distance(running)
 	duration(running)
