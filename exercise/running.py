@@ -9,7 +9,7 @@ def main():
 	'''main loop'''
 
 	# read exercise file into a dataframe
-	data_file = 'com.samsung.health.exercise.201903142152.csv'
+	data_file = 'com.samsung.health.exercise.201905162215.csv'
 
 	#df = pd.read_excel(data_file, skiprows=1)
 	df = pd.read_csv(data_file, skiprows=1)
