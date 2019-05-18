@@ -123,6 +123,7 @@ def duration(running):
 	plt.xlabel('Date')
 	plt.ylabel('Duration (minutes)')
 	plt.xticks(rotation='vertical')
+	plt.ylim(24, 30)
 	plt.tight_layout()
 	plt.savefig('duration.jpg')
 	plt.show()
