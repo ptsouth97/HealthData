@@ -3,6 +3,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 
 def main():
@@ -20,8 +22,8 @@ def main():
 	# select rows after February 16, 2019 (when full 5 kilometer distance was run)
 	running = running.loc[running['start_time'] > '2019-02-16 00:00:00.000']
 	
-	mean_speed(running)
-	distance(running)
+	#mean_speed(running)
+	#distance(running)
 	duration(running)
 
 
@@ -75,17 +77,45 @@ def distance(running):
 def duration(running):
 	''' Plots duration of runs'''
 
-	# slice the start time column and keep the date, but not the time
-	x = running['start_time'].str.split(' ').str[0]
+	# reset the dataframe's index
+	running = running.reset_index(drop=True)
+
+	# convert to datetime format
+	dates = pd.to_datetime(running['start_time'])
+
+	# calculate the number of days from start to finish of sample
+	total_days = dates.iloc[-1] - dates.iloc[0]
 	
+	# create new series calculating the difference between each sample and the start date
+	x = (dates - dates.iloc[0]).dt.days
+
 	# slice the duration column
 	y = running['duration']
     
 	# convert milliseconds to minutes
 	y = y / 1000 / 60
 
+	# Create the regressor: reg
+	reg = LinearRegression()
+	
+	# Create the prediction space
+	prediction_space = np.linspace(x.iloc[0], x.iloc[-1], total_days.days).reshape(-1, 1)
+
+	# convert x to numpy array (matrix) and reshape
+	x = x.values.reshape(-1, 1)
+
+	# Fit the model to the data
+	reg.fit(x, y)
+
+	# Compute predictions over the prediction space: y_pred
+	y_pred = reg.predict(prediction_space)
+
+	# Print R^2
+	print(reg.score(x, y))
+
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
+	plt.plot(prediction_space, y_pred, color='red', linewidth=2)
 	plt.title('Duration for runs (1002)')
 	plt.xlabel('Date')
 	plt.ylabel('Duration (minutes)')
