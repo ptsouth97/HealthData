@@ -119,8 +119,8 @@ def duration(running):
 	# make a plot
 	plt.plot(x, y, linestyle='none', marker='.')
 	plt.plot(prediction_space, y_pred, color='red', linewidth=2)
-	plt.title('Duration for runs (1002)')
-	plt.xlabel('Date')
+	plt.title('Duration for 5k runs (1002)')
+	plt.xlabel('Days since training began')
 	plt.ylabel('Duration (minutes)')
 	plt.xticks(rotation='vertical')
 	plt.ylim(24, 30)
