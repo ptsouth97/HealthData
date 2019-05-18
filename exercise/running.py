@@ -78,10 +78,13 @@ def duration(running):
 	''' Plots duration of runs'''
 
 	# reset the dataframe's index
-	running = running.reset_index(drop=True)
+	df = running.reset_index(drop=True)
+
+	# exclude outliers that are 2 standard deviations or more away from the mean
+	df = df[np.abs(df.duration - df.duration.mean()) <= (2*df.duration.std())]	
 
 	# convert to datetime format
-	dates = pd.to_datetime(running['start_time'])
+	dates = pd.to_datetime(df['start_time'])
 
 	# calculate the number of days from start to finish of sample
 	total_days = dates.iloc[-1] - dates.iloc[0]
@@ -90,7 +93,7 @@ def duration(running):
 	x = (dates - dates.iloc[0]).dt.days
 
 	# slice the duration column
-	y = running['duration']
+	y = df['duration']
     
 	# convert milliseconds to minutes
 	y = y / 1000 / 60
